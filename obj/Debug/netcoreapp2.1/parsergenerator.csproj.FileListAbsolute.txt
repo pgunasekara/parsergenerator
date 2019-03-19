@@ -1,0 +1,11 @@
+C:\Users\Pasindu\Dropbox\University\4\COMP SCI 4TB3\parsergenerator\bin\Debug\netcoreapp2.1\parsergenerator.deps.json
+C:\Users\Pasindu\Dropbox\University\4\COMP SCI 4TB3\parsergenerator\bin\Debug\netcoreapp2.1\parsergenerator.runtimeconfig.json
+C:\Users\Pasindu\Dropbox\University\4\COMP SCI 4TB3\parsergenerator\bin\Debug\netcoreapp2.1\parsergenerator.runtimeconfig.dev.json
+C:\Users\Pasindu\Dropbox\University\4\COMP SCI 4TB3\parsergenerator\bin\Debug\netcoreapp2.1\parsergenerator.dll
+C:\Users\Pasindu\Dropbox\University\4\COMP SCI 4TB3\parsergenerator\bin\Debug\netcoreapp2.1\parsergenerator.pdb
+C:\Users\Pasindu\Dropbox\University\4\COMP SCI 4TB3\parsergenerator\obj\Debug\netcoreapp2.1\parsergenerator.csprojAssemblyReference.cache
+C:\Users\Pasindu\Dropbox\University\4\COMP SCI 4TB3\parsergenerator\obj\Debug\netcoreapp2.1\parsergenerator.csproj.CoreCompileInputs.cache
+C:\Users\Pasindu\Dropbox\University\4\COMP SCI 4TB3\parsergenerator\obj\Debug\netcoreapp2.1\parsergenerator.AssemblyInfoInputs.cache
+C:\Users\Pasindu\Dropbox\University\4\COMP SCI 4TB3\parsergenerator\obj\Debug\netcoreapp2.1\parsergenerator.AssemblyInfo.cs
+C:\Users\Pasindu\Dropbox\University\4\COMP SCI 4TB3\parsergenerator\obj\Debug\netcoreapp2.1\parsergenerator.dll
+C:\Users\Pasindu\Dropbox\University\4\COMP SCI 4TB3\parsergenerator\obj\Debug\netcoreapp2.1\parsergenerator.pdb
