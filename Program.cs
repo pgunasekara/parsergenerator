@@ -54,19 +54,24 @@ namespace parsergenerator
             def.Add(new TokenDescriptor("RBRAK", @"\]"));
             def.Add(new TokenDescriptor("IDENT", "[a-z]+"));*/
 
-            var def = l.generateTokenDescriptors("tokens.tk");
-            //create dict for easy lookup
-            Console.WriteLine(JsonConvert.SerializeObject(def));
 
-            l.start("begin 0123 begin begin 2222 end begin 22 end", def);
+            //Create all possible tokens
+            var tDef = l.generateTokenDescriptors("tokens.tk");
+            Console.WriteLine(JsonConvert.SerializeObject(tDef));
 
-            //var tks = l.start("2 + 2 * abcd begin", def);
-
+            //Create all possible rules
             Parser p = new Parser();
+            var rDesc = p.generateRuleDescriptors("rules2.rl", tDef);
+            Console.WriteLine(JsonConvert.SerializeObject(rDesc, Formatting.None,
+                        new JsonSerializerSettings()
+                        { 
+                            ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+                        }));
 
-            //var ret = p.generateRuleDescriptors("rules2.rl");
+            //Tokenize input
+            var tokens = l.start("var x = 53", tDef);
 
-            //Console.WriteLine(JsonConvert.SerializeObject(ret));
+            //Match input into rules to create abstract syntax tree
         }
     }
 }

@@ -18,9 +18,15 @@ namespace parsergenerator
             OPTIONAL = 3
         }
 
-        string name;
-        public List<Tuple<IGrammar, String>> ruleElements;
-    
+        public string name;
+        public List<List<IGrammar>> elements;
+
+        public RuleDescriptor()
+        {
+            name = "";
+            elements = new List<List<IGrammar>>();
+        }
+
         public RuleDescriptor(string input, List<Token> tokens, List<Rule> rules)
         {
             //Create a descriptor based on given string
@@ -30,11 +36,11 @@ namespace parsergenerator
             this.name = lines[lineNum++];
             Regex endRule = new Regex(@"^[\s]*:[\s]*$");
             //Parse rule elements up to colon
-            while(!endRule.Match(lines[lineNum]).Success)
+            while (!endRule.Match(lines[lineNum]).Success)
             {
                 //Add rule elements
                 //Check if existing rule or token
-                
+
                 //Check if Pattern
 
             }
@@ -55,9 +61,9 @@ namespace parsergenerator
         {
             Rule rule = new Rule();
 
-            foreach(IGrammar token in tokenStream)
+            foreach (IGrammar token in tokenStream)
             {
-                
+
             }
 
             return rule;

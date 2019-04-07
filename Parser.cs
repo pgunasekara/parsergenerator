@@ -10,16 +10,16 @@ namespace parsergenerator
     {
         public Parser() {}
 
-        public List<Rule> generateRuleDescriptors(string inputFile, List<TokenDescriptor> allTokens)
+        public List<RuleDescriptor> generateRuleDescriptors(string inputFile, List<TokenDescriptor> allTokens)
         {
-            List<Rule> rules = new List<Rule>();
+            List<RuleDescriptor> rules = new List<RuleDescriptor>();
 
             using(StreamReader reader = new StreamReader(inputFile))
             {
                 string line;
                 while((line = reader.ReadLine()) != null)
                 {
-                    Rule r = new Rule();
+                    RuleDescriptor r = new RuleDescriptor();
                     int start = 0;
                     int end = 0;
                     //Skip any whitespace 
@@ -29,6 +29,8 @@ namespace parsergenerator
 
                     //Skip any whitespace 
                     while(String.IsNullOrWhiteSpace(line))   { line = reader.ReadLine(); }
+
+                    #region old 
                     /*if(line.StartsWith("returns"))
                     {
                         //Get return values
@@ -46,29 +48,53 @@ namespace parsergenerator
                         end = line.IndexOf(']');
                         r.locals = Regex.Split(line.Substring(start, end - start), @"\s*,\s*").ToList(); line = reader.ReadLine();
                     }*/
+                    #endregion
 
                     //Store contents of rule
                     if(Regex.Match(line, @"^\s*:\s*$").Success)
                     {
+                        List<List<IGrammar>> rElements = new List<List<IGrammar>>();
+                        //push initial rule
+                        List<IGrammar> currElement = new List<IGrammar>();
+
                         //Parse the rest up to the semicolon
                         while((line = reader.ReadLine()) != null)
                         {
-                            if(Regex.Match(line, @"^\s*;\s*$").Success)   break;
+                            if(Regex.Match(line, @"^\s*;\s*$").Success) { break; }
+                            //strip any spaces
+                            line = line.Trim();
 
-                            //parse rule
                             var parts = line.Split(' ');
-                            List<IGrammar> rul;
                             foreach (string part in parts)
                             {
+                                //Check if current part is an OR
                                 if(part.Equals("|"))
                                 {
-                                    continue;
+                                    rElements.Add(currElement);
+                                    currElement = new List<IGrammar>();
+                                }
+
+                                var tMatch = allTokens.Find(n => n.type.Equals(part)); //correctly matched token
+                                if(tMatch != null)
+                                {
+                                    currElement.Add(tMatch as TokenDescriptor);
+                                }
+                                else 
+                                {
+                                    //check if it's a rule that exists
+                                    var rMatch = rules.Find(n => n.name.Equals(part));
+                                    if(rMatch != null)
+                                    {
+                                        currElement.Add(rMatch as RuleDescriptor);
+                                    }
                                 }
                             }
-
-                            r.tRules.Add(line);
-                            r.rules.Add(null);
                         }
+
+                        //Add last rule
+                        rElements.Add(currElement);
+
+                        r.elements = rElements;
                     }
 
                     rules.Add(r);

@@ -1,12 +1,15 @@
 using System.Text.RegularExpressions;
 using System;
+using Newtonsoft.Json;
 
 namespace parsergenerator
 {
-    public class TokenDescriptor
+    public class TokenDescriptor : IGrammar
     {
         public String type { get; set; }
+        [JsonIgnore]
         public string pattern { get; set; }
+        [JsonIgnore]
         public Match match { get; set; }
 
         public TokenDescriptor() { }

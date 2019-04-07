@@ -9,7 +9,7 @@ namespace parsergenerator
         public string returnValue;
         public List<string> locals;
         public List<string> tRules; //temporary
-        public List<List<IGrammar>> rules;
+        public List<IGrammar> rules;
 
         public Rule()
         {
@@ -17,7 +17,7 @@ namespace parsergenerator
             this.returnValue = "";
             this.locals = new List<string>();
             this.tRules = new List<string>();
-            this.rules = new List<List<IGrammar>>();
+            this.rules = new List<IGrammar>();
         }
 
         public int getRuleMatchLength()

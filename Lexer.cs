@@ -7,8 +7,6 @@ namespace parsergenerator
 {
     public class Lexer
     {
-
-        //String input;
         public Lexer() { }
 
         public List<Token> start(String input, List<TokenDescriptor> TokenDescriptors)
@@ -68,4 +66,6 @@ namespace parsergenerator
             return tkd;
         }
     }
+
+    
 }
