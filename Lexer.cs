@@ -65,7 +65,12 @@ namespace parsergenerator
 
             return tkd;
         }
-    }
-
     
+        public List<IGrammar> matchRules()
+        {
+            List<IGrammar> rules = null;
+
+            return rules;
+        }
+    }
 }

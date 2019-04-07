@@ -11,12 +11,15 @@ namespace parsergenerator
         public string pattern { get; set; }
         [JsonIgnore]
         public Match match { get; set; }
+        public Pattern rPattern { get; set; }
+        
 
         public TokenDescriptor() { }
         public TokenDescriptor(String type, string pattern)
         {
             this.type = type;
             this.pattern = pattern;
+            this.rPattern = Pattern.NONE;
         }
 
         public string getMatch(string input)

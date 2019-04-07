@@ -69,7 +69,7 @@ namespace parsergenerator
                         }));
 
             //Tokenize input
-            var tokens = l.start("var x = 53", tDef);
+            var tokens = l.start("var x, y: integer", tDef);
 
             //Match input into rules to create abstract syntax tree
         }

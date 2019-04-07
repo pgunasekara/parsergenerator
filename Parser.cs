@@ -79,6 +79,10 @@ namespace parsergenerator
                                 {
                                     currElement.Add(tMatch as TokenDescriptor);
                                 }
+                                else if (part.Equals(r.name))
+                                {
+                                    //handle this case
+                                }
                                 else 
                                 {
                                     //check if it's a rule that exists
@@ -107,6 +111,15 @@ namespace parsergenerator
         public List<Rule> generateRules(List<RuleDescriptor> rd)
         {
             List<Rule> rules = new List<Rule>();
+
+            //if a rule match is found, then add it to the tree
+            //Start by checking for program rule match
+            // >> match
+
+
+            //temp
+            //start by matching var rule
+
 
             return rules;
         }

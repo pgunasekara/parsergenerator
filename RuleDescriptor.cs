@@ -8,23 +8,18 @@ namespace parsergenerator
     /**
      * Builds a rule by expanding out a rule using it's regular expressions
      */
+    
     public class RuleDescriptor : IGrammar
     {
-        public enum Pattern
-        {
-            NONE = 0,
-            ZEROORMORE = 1,
-            ONEORMORE = 2,
-            OPTIONAL = 3
-        }
-
         public string name;
         public List<List<IGrammar>> elements;
+        public Pattern rPattern;
 
         public RuleDescriptor()
         {
             name = "";
             elements = new List<List<IGrammar>>();
+            rPattern = Pattern.NONE;
         }
 
         public RuleDescriptor(string input, List<Token> tokens, List<Rule> rules)
