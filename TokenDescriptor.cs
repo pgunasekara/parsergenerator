@@ -5,11 +5,12 @@ namespace parsergenerator
 {
     public class TokenDescriptor
     {
-        public Symbol type { get; set; }
+        public String type { get; set; }
         public string pattern { get; set; }
         public Match match { get; set; }
 
-        public TokenDescriptor(Symbol type, string pattern)
+        public TokenDescriptor() { }
+        public TokenDescriptor(String type, string pattern)
         {
             this.type = type;
             this.pattern = pattern;
@@ -17,7 +18,7 @@ namespace parsergenerator
 
         public string getMatch(string input)
         {
-            match = Regex.Match(input, "^" + pattern);
+            match = Regex.Match(input, @"^" + pattern);
 
             if(match.Success)
             {

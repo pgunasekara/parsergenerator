@@ -1,3 +1,8 @@
+using System.Linq;
+using System.Text.RegularExpressions;
+using System.Collections.Generic;
+using System;
+
 namespace parsergenerator
 {
     /**
@@ -14,11 +19,36 @@ namespace parsergenerator
         }
 
         string name;
-        public List<IGrammar> ruleStructure;
-
-        public RuleDescriptor(List<IGrammar> ruleStructure)
+        public List<Tuple<IGrammar, String>> ruleElements;
+    
+        public RuleDescriptor(string input, List<Token> tokens, List<Rule> rules)
         {
-            this.ruleStructure = ruleStructure;
+            //Create a descriptor based on given string
+            var lines = input.Split(",");
+            var lineNum = 0;
+            //Get name from first line
+            this.name = lines[lineNum++];
+            Regex endRule = new Regex(@"^[\s]*:[\s]*$");
+            //Parse rule elements up to colon
+            while(!endRule.Match(lines[lineNum]).Success)
+            {
+                //Add rule elements
+                //Check if existing rule or token
+                
+                //Check if Pattern
+
+            }
+
+            /*while(lineNum < lines.Count)
+            {
+                var currentLine = lines[lineNum++];
+                var elements = currentLine.Split(@"\s+");
+
+                
+            }*/
+
+
+            //this.ruleElements = ruleElements;
         }
 
         public Rule generateRule(List<IGrammar> tokenStream)

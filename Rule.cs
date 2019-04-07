@@ -1,15 +1,28 @@
 using System;
+using System.Collections.Generic;
 
 namespace parsergenerator
 {
     public class Rule : IGrammar
     {
         public string name;
-        public List<IGrammar> rule;
+        public string returnValue;
+        public List<string> locals;
+        public List<string> tRules; //temporary
+        public List<List<IGrammar>> rules;
+
+        public Rule()
+        {
+            this.name = "";
+            this.returnValue = "";
+            this.locals = new List<string>();
+            this.tRules = new List<string>();
+            this.rules = new List<List<IGrammar>>();
+        }
 
         public int getRuleMatchLength()
         {
-            
+            return 0;
         }
     }
 }
