@@ -15,11 +15,17 @@ namespace parsergenerator
         
 
         public TokenDescriptor() { }
+
         public TokenDescriptor(String type, string pattern)
         {
             this.type = type;
             this.pattern = pattern;
             this.rPattern = Pattern.NONE;
+        }
+
+        public TokenDescriptor copy()
+        {
+            return new TokenDescriptor(this.type, this.pattern);
         }
 
         public string getMatch(string input)

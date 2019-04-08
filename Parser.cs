@@ -67,6 +67,8 @@ namespace parsergenerator
                             var parts = line.Split(' ');
                             foreach (string part in parts)
                             {
+                                
+                                Pattern patt = Pattern.NONE;
                                 //Check if current part is an OR
                                 if(part.Equals("|"))
                                 {
@@ -74,21 +76,46 @@ namespace parsergenerator
                                     currElement = new List<IGrammar>();
                                 }
 
-                                var tMatch = allTokens.Find(n => n.type.Equals(part)); //correctly matched token
+                                string pCopy = part;
+
+                                //Check for pattern modifier
+                                if(pCopy.EndsWith('+'))
+                                {
+                                    patt = Pattern.ONEORMORE;
+                                }
+                                else if(pCopy.EndsWith('*'))
+                                {
+                                    patt = Pattern.ZEROORMORE;
+                                }
+                                else if(pCopy.EndsWith('?'))
+                                {
+                                    patt = Pattern.ZEROORONE;
+                                }
+
+                                if(patt != Pattern.NONE)
+                                {
+                                    pCopy = pCopy.Substring(0, pCopy.Length-1);
+                                }
+
+                                var tMatch = allTokens.Find(n => n.type.Equals(pCopy)); //correctly matched token
                                 if(tMatch != null)
                                 {
+                                    tMatch.rPattern = patt;
                                     currElement.Add(tMatch as TokenDescriptor);
                                 }
-                                else if (part.Equals(r.name))
+                                else if (pCopy.Equals(r.name))
                                 {
                                     //handle this case
+                                    r.rPattern = patt;
+                                    currElement.Add(r);
                                 }
                                 else 
                                 {
                                     //check if it's a rule that exists
-                                    var rMatch = rules.Find(n => n.name.Equals(part));
+                                    var rMatch = rules.Find(n => n.name.Equals(pCopy));
                                     if(rMatch != null)
                                     {
+                                        rMatch.rPattern = patt;
                                         currElement.Add(rMatch as RuleDescriptor);
                                     }
                                 }

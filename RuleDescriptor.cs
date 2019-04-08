@@ -22,6 +22,17 @@ namespace parsergenerator
             rPattern = Pattern.NONE;
         }
 
+        public RuleDescriptor(string name, List<List<IGrammar>> elements)
+        {
+            this.name = name;
+            this.elements = elements;
+        }
+
+        public RuleDescriptor copy()
+        {
+            return new RuleDescriptor(this.name, this.elements);
+        }
+
         public RuleDescriptor(string input, List<Token> tokens, List<Rule> rules)
         {
             //Create a descriptor based on given string

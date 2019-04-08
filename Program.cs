@@ -61,7 +61,7 @@ namespace parsergenerator
 
             //Create all possible rules
             Parser p = new Parser();
-            var rDesc = p.generateRuleDescriptors("rules2.rl", tDef);
+            var rDesc = p.generateRuleDescriptors("rules3.rl", tDef);
             Console.WriteLine(JsonConvert.SerializeObject(rDesc, Formatting.None,
                         new JsonSerializerSettings()
                         { 

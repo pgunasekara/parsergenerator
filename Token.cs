@@ -15,5 +15,10 @@ namespace parsergenerator
             this.val = val;
             rPattern = Pattern.NONE;
         }
+
+        public Token copy()
+        {
+            return new Token(this.type, this.val);
+        }
     }
 }
