@@ -1,10 +1,2 @@
 program test;
-    var x : integer;
-    procedure start(z : integer);
-        begin
-            x = 5;
-        end
-    end
-    begin
-        start(x);
-    end
+    var x

@@ -10,7 +10,7 @@ rTypeIds
 
 typeIds
     :
-    IDENT rTypeIds* COLON type
+    IDENT rTypeIds COLON type
     ;
 
 declarations

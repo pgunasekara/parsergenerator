@@ -53,9 +53,11 @@ namespace parsergenerator
                     //Store contents of rule
                     if(Regex.Match(line, @"^\s*:\s*$").Success)
                     {
-                        List<List<IGrammar>> rElements = new List<List<IGrammar>>();
+                        List<IGrammar> rElements = new List<IGrammar>();
                         //push initial rule
-                        List<IGrammar> currElement = new List<IGrammar>();
+                        RuleDescriptor currElement = new RuleDescriptor();
+                        int i = 0;
+                        currElement.name = r.name + "_" + i++;
 
                         //Parse the rest up to the semicolon
                         while((line = reader.ReadLine()) != null)
@@ -73,7 +75,8 @@ namespace parsergenerator
                                 if(part.Equals("|"))
                                 {
                                     rElements.Add(currElement);
-                                    currElement = new List<IGrammar>();
+                                    currElement = new RuleDescriptor();
+                                    currElement.name = r.name + "_" + i++;
                                 }
 
                                 string pCopy = part;
@@ -102,14 +105,14 @@ namespace parsergenerator
                                 {
                                     var tMatchCopy = tMatch.copy();
                                     tMatchCopy.rPattern = patt;
-                                    currElement.Add(tMatchCopy);
+                                    currElement.elements.Add(tMatchCopy);
                                 }
                                 else if (pCopy.Equals(r.name))
                                 {
                                     //handle this case
                                     var rCopy = r.copy();
                                     rCopy.rPattern = patt;
-                                    currElement.Add(rCopy);
+                                    currElement.elements.Add(rCopy);
                                 }
                                 else 
                                 {
@@ -119,7 +122,7 @@ namespace parsergenerator
                                     {
                                         var rMatchCopy = rMatch.copy();
                                         rMatchCopy.rPattern = patt;
-                                        currElement.Add(rMatchCopy);
+                                        currElement.elements.Add(rMatchCopy);
                                     }
                                 }
                             }

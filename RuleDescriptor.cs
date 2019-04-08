@@ -12,17 +12,17 @@ namespace parsergenerator
     public class RuleDescriptor : IGrammar
     {
         public string name;
-        public List<List<IGrammar>> elements;
+        public List<IGrammar> elements;
         public Pattern rPattern;
 
         public RuleDescriptor()
         {
             name = "";
-            elements = new List<List<IGrammar>>();
+            elements = new List<IGrammar>();
             rPattern = Pattern.NONE;
         }
 
-        public RuleDescriptor(string name, List<List<IGrammar>> elements)
+        public RuleDescriptor(string name, List<IGrammar> elements)
         {
             this.name = name;
             this.elements = elements;
@@ -63,28 +63,37 @@ namespace parsergenerator
             //this.ruleElements = ruleElements;
         }
 
-        public Rule getMatchedRule(List<Token> tokens)
+        public Rule getMatchedRule(ref List<Token> tokens)
         {
             Rule rule = new Rule();
 
-            int currentIndex = 0;
-            bool matched = false;
+            var tokenCopy = tokens.Select(t => new Token(t.type, t.val)).ToList();
+
+            bool notFound = false;
 
             //if we match, create a rule from this rule descriptor
-            foreach (Token token in tokens)
+            foreach (var element in elements)
             {
-                foreach (var element in elements)
+                if (element.GetType() == typeof(TokenDescriptor))
                 {
-                    if (element[currentIndex].GetType() == typeof(TokenDescriptor))
-                    {
+                    TokenDescriptor nxt = element as TokenDescriptor;
 
-                        if (token.type.Equals(element[currentIndex].)) { }
-                    }
+                    if(tokenCopy[0].type.Equals(nxt.type)) { rule.elements.Add(tokenCopy[0]); tokenCopy.RemoveAt(0); }
+                    else                                   { notFound = true; break; }
                 }
+                else if (element.GetType() == typeof(RuleDescriptor))
+                {
+                    RuleDescriptor nxt = element as RuleDescriptor;
+                    Rule res = nxt.getMatchedRule(ref tokenCopy);
 
-                if(!matched) { break; }
-
+                    if(res != null) { rule.elements.Add(res); tokenCopy.RemoveAt(0); }
+                    else            { notFound = true; break; }
+                    
+                }
             }
+
+            if (notFound) { rule = null; }
+            else          { tokens = tokenCopy; }
 
             return rule;
         }
