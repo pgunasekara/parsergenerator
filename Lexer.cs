@@ -66,11 +66,23 @@ namespace parsergenerator
             return tkd;
         }
     
-        public List<IGrammar> matchRules()
+        public Rule matchRules(List<Token> tokens, List<IGrammar> rules)
         {
-            List<IGrammar> rules = null;
+            Rule parseTree = new Rule();
 
-            return rules;
+            while(tokens.Count > 0)
+            {
+                int consume = 0;
+                int longestRule = 0;
+                //find a match with the first token, and then keep going
+                foreach (IGrammar rule in rules)
+                {
+                    
+                }
+
+            }
+
+            return parseTree;
         }
     }
 }

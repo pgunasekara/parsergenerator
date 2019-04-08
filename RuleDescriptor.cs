@@ -8,7 +8,7 @@ namespace parsergenerator
     /**
      * Builds a rule by expanding out a rule using it's regular expressions
      */
-    
+
     public class RuleDescriptor : IGrammar
     {
         public string name;
@@ -63,12 +63,26 @@ namespace parsergenerator
             //this.ruleElements = ruleElements;
         }
 
-        public Rule generateRule(List<IGrammar> tokenStream)
+        public Rule getMatchedRule(List<Token> tokens)
         {
             Rule rule = new Rule();
 
-            foreach (IGrammar token in tokenStream)
+            int currentIndex = 0;
+            bool matched = false;
+
+            //if we match, create a rule from this rule descriptor
+            foreach (Token token in tokens)
             {
+                foreach (var element in elements)
+                {
+                    if (element[currentIndex].GetType() == typeof(TokenDescriptor))
+                    {
+
+                        if (token.type.Equals(element[currentIndex].)) { }
+                    }
+                }
+
+                if(!matched) { break; }
 
             }
 

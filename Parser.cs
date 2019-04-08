@@ -100,14 +100,16 @@ namespace parsergenerator
                                 var tMatch = allTokens.Find(n => n.type.Equals(pCopy)); //correctly matched token
                                 if(tMatch != null)
                                 {
-                                    tMatch.rPattern = patt;
-                                    currElement.Add(tMatch as TokenDescriptor);
+                                    var tMatchCopy = tMatch.copy();
+                                    tMatchCopy.rPattern = patt;
+                                    currElement.Add(tMatchCopy);
                                 }
                                 else if (pCopy.Equals(r.name))
                                 {
                                     //handle this case
-                                    r.rPattern = patt;
-                                    currElement.Add(r);
+                                    var rCopy = r.copy();
+                                    rCopy.rPattern = patt;
+                                    currElement.Add(rCopy);
                                 }
                                 else 
                                 {
@@ -115,8 +117,9 @@ namespace parsergenerator
                                     var rMatch = rules.Find(n => n.name.Equals(pCopy));
                                     if(rMatch != null)
                                     {
-                                        rMatch.rPattern = patt;
-                                        currElement.Add(rMatch as RuleDescriptor);
+                                        var rMatchCopy = rMatch.copy();
+                                        rMatchCopy.rPattern = patt;
+                                        currElement.Add(rMatchCopy);
                                     }
                                 }
                             }
@@ -135,20 +138,19 @@ namespace parsergenerator
             return rules;
         }
 
-        public List<Rule> generateRules(List<RuleDescriptor> rd)
+        public Rule generateParseTree(List<Token> tokens, List<RuleDescriptor> rules)
         {
-            List<Rule> rules = new List<Rule>();
+            Rule parseTree = new Rule();
 
             //if a rule match is found, then add it to the tree
             //Start by checking for program rule match
-            // >> match
+            foreach(RuleDescriptor rule in rules)
+            {
+                
+            }
 
 
-            //temp
-            //start by matching var rule
-
-
-            return rules;
+            return parseTree;
         }
     }
 }

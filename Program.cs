@@ -72,6 +72,7 @@ namespace parsergenerator
             var tokens = l.start("var x, y: integer", tDef);
 
             //Match input into rules to create abstract syntax tree
+            p.generateParseTree(tokens, rDesc);
         }
     }
 }
