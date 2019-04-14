@@ -69,10 +69,16 @@ namespace parsergenerator
                         }));
 
             //Tokenize input
-            var tokens = l.start("var x, y: integer", tDef);
+            var tokens = l.start("program test;\n var x : integer;", tDef);
 
             //Match input into rules to create abstract syntax tree
-            p.generateParseTree(tokens, rDesc);
+            var parseTree = p.generateParseTree(tokens, rDesc);
+
+            Console.WriteLine(JsonConvert.SerializeObject(parseTree, Formatting.None,
+                        new JsonSerializerSettings()
+                        { 
+                            ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+                        }));
         }
     }
 }

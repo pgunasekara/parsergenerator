@@ -12,6 +12,7 @@ namespace parsergenerator
         [JsonIgnore]
         public Match match { get; set; }
         public Pattern rPattern { get; set; }
+        public RulePattern rulePattern { get; set; }
         
 
         public TokenDescriptor() { }
@@ -21,6 +22,7 @@ namespace parsergenerator
             this.type = type;
             this.pattern = pattern;
             this.rPattern = Pattern.NONE;
+            this.rulePattern = RulePattern.NONE;
         }
 
         public TokenDescriptor copy()

@@ -15,7 +15,7 @@ namespace parsergenerator
             while(input != "")
             {
                 int len = 0;
-                while(input[len] == ' ') len++;
+                while(input[len] == ' ' || input[len] == '\n') len++;
 
                 input = input.Substring(len);
 

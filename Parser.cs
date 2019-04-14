@@ -54,14 +54,31 @@ namespace parsergenerator
                     if(Regex.Match(line, @"^\s*:\s*$").Success)
                     {
                         List<IGrammar> rElements = new List<IGrammar>();
-                        //push initial rule
-                        RuleDescriptor currElement = new RuleDescriptor();
+                        bool isOrRule = false, initRun = true;
                         int i = 0;
-                        currElement.name = r.name + "_" + i++;
+                        
+                        RuleDescriptor currElement = null;
 
                         //Parse the rest up to the semicolon
                         while((line = reader.ReadLine()) != null)
                         {
+                            if(initRun)
+                            {
+                            //Check if it's an OR rule
+                                if(line.IndexOf('|') == -1)
+                                {
+                                    isOrRule = false;
+                                    currElement = r;
+                                }
+                                else
+                                {
+                                    isOrRule = true;
+                                    currElement = new RuleDescriptor();
+                                    currElement.name = r.name + "_" + i++;
+                                }
+                                initRun = false;
+                            }
+
                             if(Regex.Match(line, @"^\s*;\s*$").Success) { break; }
                             //strip any spaces
                             line = line.Trim();
@@ -74,6 +91,7 @@ namespace parsergenerator
                                 //Check if current part is an OR
                                 if(part.Equals("|"))
                                 {
+                                    r.rulePattern = RulePattern.ORRULE;
                                     rElements.Add(currElement);
                                     currElement = new RuleDescriptor();
                                     currElement.name = r.name + "_" + i++;
@@ -128,10 +146,13 @@ namespace parsergenerator
                             }
                         }
 
-                        //Add last rule
-                        rElements.Add(currElement);
+                        if(isOrRule)
+                        {
+                            //Add last rule
+                            rElements.Add(currElement);
 
-                        r.elements = rElements;
+                            r.elements = rElements;
+                        }
                     }
 
                     rules.Add(r);
@@ -147,10 +168,10 @@ namespace parsergenerator
 
             //if a rule match is found, then add it to the tree
             //Start by checking for program rule match
-            foreach(RuleDescriptor rule in rules)
-            {
-                
-            }
+            //foreach(RuleDescriptor rule in rules)
+            //{
+            parseTree = rules[rules.Count-1].getMatchedRule(ref tokens);
+            //}
 
 
             return parseTree;

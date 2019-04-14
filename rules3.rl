@@ -10,7 +10,12 @@ rTypeIds
 
 typeIds
     :
-    IDENT rTypeIds COLON type
+    IDENT COLON type
+    ;
+
+compoundStatement
+    :
+    BEGIN statement
     ;
 
 declarations
@@ -20,5 +25,5 @@ declarations
 
 program
     :
-    PROGRAM IDENT SEMICOLON declarations compoundStatement
+    PROGRAM IDENT SEMICOLON declarations
     ;

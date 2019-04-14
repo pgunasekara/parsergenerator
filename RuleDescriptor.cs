@@ -14,12 +14,14 @@ namespace parsergenerator
         public string name;
         public List<IGrammar> elements;
         public Pattern rPattern;
+        public RulePattern rulePattern;
 
         public RuleDescriptor()
         {
             name = "";
             elements = new List<IGrammar>();
             rPattern = Pattern.NONE;
+            rulePattern = RulePattern.NONE;
         }
 
         public RuleDescriptor(string name, List<IGrammar> elements)
@@ -66,14 +68,88 @@ namespace parsergenerator
         public Rule getMatchedRule(ref List<Token> tokens)
         {
             Rule rule = new Rule();
+            bool notFound = false;
+            
+            if(rulePattern == RulePattern.ORRULE)
+            {
+                Rule longestRule = null;
+                int currentMatchLen = 0;
+                int matchLength = 0;
+                foreach(var element in elements)
+                {
+                    RuleDescriptor nxt = element as RuleDescriptor;
+                    Rule res = nxt.getMatchedRule(ref tokens);
 
-            var tokenCopy = tokens.Select(t => new Token(t.type, t.val)).ToList();
+                    if(res == null) { continue; }
+                    
+                    //Pick the longest rule
+                    //only have rules to go through
+                    if(currentMatchLen > matchLength || longestRule == null)
+                    {
+                        matchLength = currentMatchLen;
+
+                        longestRule = res;
+                    }
+                }
+                
+
+                if(longestRule != null)
+                {
+                    foreach(var element in longestRule.elements)
+                    {
+                        rule.elements.Add(element);
+                    }
+
+                    //Remove tokens
+                    tokens.RemoveRange(0, matchLength);
+                }
+                
+            }
+            else
+            {
+                //run the rule normally
+                int currentTokenIndex = 0;
+                var tokenCopy = tokens.Select(t => new Token(t.type, t.val)).ToList();
+                
+                foreach(var element in elements)
+                {
+                    if (element.GetType() == typeof(TokenDescriptor))
+                    {
+                        TokenDescriptor nxt = element as TokenDescriptor;
+
+                        if(tokenCopy[0].type.Equals(nxt.type)) { rule.elements.Add(tokenCopy[0]); tokenCopy.RemoveAt(0); }
+                        else                                   { notFound = true; rule = null; break; }
+                    }
+                    else if (element.GetType() == typeof(RuleDescriptor))
+                    {
+                        RuleDescriptor nxt = element as RuleDescriptor;
+                        Rule res = nxt.getMatchedRule(ref tokenCopy);
+
+                        if(res != null) { rule.elements.Add(res); }
+                        else            { notFound = true; break; }
+                        
+                    }
+                }
+
+                if (notFound) { rule = null; }
+                else          { tokens = tokenCopy; }
+            }
+
+            return rule;
+
+            /*
+
+
+            List<Token> smallestTokenList;
 
             bool notFound = false;
+
+            int currentTokensConsumed;
 
             //if we match, create a rule from this rule descriptor
             foreach (var element in elements)
             {
+
                 if (element.GetType() == typeof(TokenDescriptor))
                 {
                     TokenDescriptor nxt = element as TokenDescriptor;
@@ -95,7 +171,7 @@ namespace parsergenerator
             if (notFound) { rule = null; }
             else          { tokens = tokenCopy; }
 
-            return rule;
+            return rule;*/
         }
     }
 }
