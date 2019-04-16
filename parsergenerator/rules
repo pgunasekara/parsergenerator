@@ -1,0 +1,229 @@
+selector_a
+    :
+    PERIOD IDENT
+    ;
+
+selector_b
+    :
+    LBRAK expression RBRAK
+    ;
+
+rselector
+    :
+    selector_a | selector_b
+    ;
+
+selector
+    :
+    rselector*
+    ;
+
+factor_a
+    :
+    IDENT selector
+    ;
+
+factor_b
+    :
+    NUMBER
+    ;
+
+factor_c
+    :
+    LPAREN expression RPAREN
+    ;
+
+factor_d
+    :
+    NOT factor
+    ;
+
+factor
+    :
+    factor_a | factor_b | factor_c | factor_d
+    ;
+
+rterm_a
+    :
+    TIMES | DIV | MOD | AND
+    ;
+
+rterm
+    :
+    rterm_a factor
+    ;
+
+term
+    :
+    factor rterm*
+    ;
+
+simpleExpression_a
+    :
+    PLUS | MINUS
+    ;
+
+simpleExpression_b_a
+    :
+    PLUS | MINUS | OR
+    ;
+
+simpleExpression_b
+    :
+    simpleExpression_b_a term
+    ;
+
+simpleExpression
+    :
+    simpleExpression_a? term simpleExpression_b*
+    ;
+
+expression_a_a
+    :
+    EQ | NE | LT | LE | GT | GE
+    ;
+
+expression_a
+    :
+    expression_a_a simpleExpression
+    ;
+
+expression
+    :
+    simpleExpression expression_a?
+    ;
+
+rcompoundStatement
+    :
+    SEMICOLON statement
+    ;
+
+compoundStatement
+    :
+    BEGIN statement rcompoundStatement* END 
+    ;
+
+statement_a
+    :
+    IDENT selector BECOMES expression
+    ;
+
+statement_b_a_a
+    :
+    COMMA expression
+    ;
+
+statement_b_a
+    :
+    expression statement_b_a_a*
+    ;
+
+statement_b
+    :
+    IDENT LPAREN statement_b_a? RPAREN
+    ;
+
+statement_c
+    :
+    compoundStatement
+    ;
+
+statement_d_a
+    :
+    ELSE statement
+    ;
+
+statement_d
+    :
+    IF expression THEN statement statement_d_a?
+    ;
+
+statement_e
+    :
+    WHILE expression DO statement
+    ;
+
+statement
+    :
+    statement_a | statement_b | statement_c | statement_d | statement_e
+    ;
+
+type_a
+    :
+    IDENT
+    ;
+
+type_b
+    :
+    ARRAY LBRAK expression PERIOD PERIOD expression RBRAK OF type
+    ;
+
+type_c_a
+    :
+    SEMICOLON typedIds
+    ;
+
+type_c
+    :
+    RECORD typedIds type_c_a* END
+    ;
+
+type
+    :
+    type_a | type_b | type_c
+    ;
+
+typedIds_a
+    :
+    COMMA IDENT
+    ;
+
+typedIds
+    :
+    IDENT typedIds_a* COLON type
+    ;
+
+declarations_a
+    :
+    CONST IDENT EQ expression SEMICOLON
+    ;
+
+declarations_b
+    :
+    type IDENT EQ type SEMICOLON
+    ;
+
+declarations_c
+    :
+    VAR typedIds SEMICOLON
+    ;
+
+declarations_d_a_a_a
+    :
+    SEMICOLON VAR? typedIds
+    ;
+
+declarations_d_a_a
+    :
+    VAR? typedIds declarations_d_a_a_a*
+    ;
+
+declarations_d_a
+    :
+    LPAREN declarations_d_a_a? RPAREN
+    ;
+
+declarations_d
+    :
+    PROCEDURE IDENT declarations_d_a? SEMICOLON declarations compoundStatement SEMICOLON
+    ;
+
+declarations
+    :
+    declarations_a* declarations_b* declarations_c* declarations_d*
+    ;
+
+program
+    :
+    PROGRAM IDENT SEMICOLON declarations compoundStatement
+    ;

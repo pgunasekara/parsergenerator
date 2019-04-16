@@ -4,14 +4,15 @@ using Newtonsoft.Json;
 
 namespace parsergenerator
 {
+    //Represents a single token within the program
     public class Token : IGrammar
     {
-        public String type { get; set; }
-        public String val { get; set; }
+        public String type { get; set; } //The user defined name of the token
+        public String val { get; set; } //The actual value of the token
         [JsonIgnore]
-        public Pattern rPattern { get; set; }
+        public Pattern rPattern { get; set; } //The pattern for whether the token will have a * ? or +
         [JsonIgnore]
-        public RulePattern rulePattern { get; set; }
+        public RulePattern rulePattern { get; set; } //Unused for token
 
         public Token(String type, String val)
         {

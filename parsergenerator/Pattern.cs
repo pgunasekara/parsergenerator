@@ -1,3 +1,4 @@
+//Used to set patterns for entire rules or tokens
 public enum Pattern
 {
     NONE = 0,
