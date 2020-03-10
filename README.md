@@ -1,14 +1,10 @@
 # Parser Generator
-## COMP SCI 4TB3 Final project
-
-**Comparison of Parsing Techniques.**
 Implement the P0 parser using a parser generator and verify that it runs as efficiently or better than the existing P0 parser or other parsing techniques.
 
-### Prerequisite Software
-Install the following software:
-[dotnet core SDK](https://dotnet.microsoft.com/download)
+### Installation
+Install the [dotnet core SDK](https://dotnet.microsoft.com/download) to build this project.
 
-### Building
+### Usage
 Run the following commands from the folder containing this readme document:
 
 ```
